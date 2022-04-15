@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+# docker run --network internal-network --name apache-server-root --hostname location-root calevin/apache_server:1.0 .
+  apache-server-root:
+    build: 
+      context: ${PWD}/../apache_server
+      dockerfile: Dockerfile
+    networks:
+      - internal-network
+    hostname: location-root
+# docker run -d --network internal-network --name nginx-server-a --hostname server_a calevin/nginx_server:1.0
+  nginx-server-a:
+    build: 
+      context: ${PWD}/../nginx_server
+      dockerfile: Dockerfile
+    networks:
+      - internal-network
+    hostname: server_a
+# docker run --network internal-network --name nginx-reverse-proxy -p 8080:80 calevin/nginx_reverse_proxy:1.0
+  nginx-reverse-proxy:
+    build: 
+      context: ${PWD}/../nginx_reverse_proxy
+      dockerfile: Dockerfile
+    networks:
+      - internal-network
+    ports:
+      - 8080:80    
+
+networks:
+  internal-network:
+    driver: bridge      
