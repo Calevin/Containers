@@ -1,7 +1,7 @@
-version: '3'
+version: '4'
 
 services:
-# docker run --network internal-network --name apache-server-root --hostname location-root calevin/apache_server:1.0 .
+# docker run -d --network internal-network --name apache-server-root --hostname location-root calevin/apache_server:1.0
   apache-server-root:
     build: 
       context: ${PWD}/../apache_server
@@ -17,6 +17,14 @@ services:
     networks:
       - internal-network
     hostname: server_a
+# docker run -d --network internal-network --name springboot-api-a --hostname springboot-api-a calevin/springboot_api:1.0
+  springboot-api-a:
+    build: 
+      context: ${PWD}/../springboot_api
+      dockerfile: Dockerfile
+    networks:
+      - internal-network
+    hostname: springboot-api-a
 # docker run --network internal-network --name nginx-reverse-proxy -p 8080:80 calevin/nginx_reverse_proxy:1.0
   nginx-reverse-proxy:
     build: 
@@ -25,7 +33,7 @@ services:
     networks:
       - internal-network
     ports:
-      - 8080:80    
+      - 8080:80
 
 networks:
   internal-network:
