@@ -1,0 +1,24 @@
+version: "3.8"
+services:
+  springboot-api-a:
+    build: .
+    restart: on-failure
+    expose:
+      - '80:80'
+    depends_on:
+      - db-mysql
+    hostname: springboot-api-a
+    networks:
+      - internal-network
+  db-mysql:
+    image: mariadb:10.8.3
+    restart: always
+    expose:
+      - '3306'
+    environment:
+      - MARIADB_DATABASE=example
+      - MARIADB_USER=example-user
+      - MARIADB_PASSWORD=3x4mpl3P4ssw0rd
+      - MARIADB_RANDOM_ROOT_PASSWORD=yes
+    networks:
+      - internal-network

@@ -1,10 +1,24 @@
-version: '4'
+version: '3.8'
 
 services:
+#  db-mysql:
+#    image: mariadb:10.8.3
+#    restart: on-failure
+#    environment:
+#      - MARIADB_USER=example-user
+#      - MARIADB_DATABASE=example
+#      - MARIADB_ROOT_PASSWORD=${MARIADB_PASS}
+#    expose:
+#      - '3306'
+#    networks:
+#      - internal-network
+#    hostname: db-mysql
+#    volumes:
+#      - ../db_mysql/:/docker-entrypoint-initdb.d/:ro
 # docker run -d --network internal-network --name apache-server-root --hostname location-root calevin/apache_server:1.0
   apache-server-root:
     build: 
-      context: ${PWD}/../apache_server
+      context: ${CONTAINERS_PROJECT_ROOT}/apache_server
       dockerfile: Dockerfile
     networks:
       - internal-network
@@ -12,23 +26,23 @@ services:
 # docker run -d --network internal-network --name nginx-server-a --hostname server_a calevin/nginx_server:1.0
   nginx-server-a:
     build: 
-      context: ${PWD}/../nginx_server
+      context: ${CONTAINERS_PROJECT_ROOT}/nginx_server
       dockerfile: Dockerfile
     networks:
       - internal-network
     hostname: server_a
 # docker run -d --network internal-network --name springboot-api-a --hostname springboot-api-a calevin/springboot_api:1.0
-  springboot-api-a:
-    build: 
-      context: ${PWD}/../springboot_api
-      dockerfile: Dockerfile
-    networks:
-      - internal-network
-    hostname: springboot-api-a
+#  springboot-api-a:
+#    build: 
+#      context: ${CONTAINERS_PROJECT_ROOT}/springboot_api
+#      dockerfile: Dockerfile
+#    networks:
+#      - internal-network
+#    hostname: springboot-api-a
 # docker run --network internal-network --name nginx-reverse-proxy -p 8080:80 calevin/nginx_reverse_proxy:1.0
   nginx-reverse-proxy:
     build: 
-      context: ${PWD}/../nginx_reverse_proxy
+      context: ${CONTAINERS_PROJECT_ROOT}/nginx_reverse_proxy
       dockerfile: Dockerfile
     networks:
       - internal-network
@@ -37,4 +51,4 @@ services:
 
 networks:
   internal-network:
-    driver: bridge      
+    driver: bridge
