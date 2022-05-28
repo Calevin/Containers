@@ -15,8 +15,8 @@ services:
   db-mysql:
     image: mariadb:10.8.3
     restart: always
-    expose:
-      - '3306'
+    ports:
+      - '3306:3306'
     environment:
       - MARIADB_DATABASE=example-dev
       - MARIADB_USER=example-user
