@@ -1,0 +1,24 @@
+version: "3.8"
+# docker run -d --network internal-network --name springboot-api-a --hostname springboot-api-a calevin/springboot_api:1.0
+services:
+  springboot-api-a:
+    build:
+      context: .
+      dockerfile: ./Dockerfile.local
+    restart: on-failure
+    ports:
+      - '8080:8080'
+    depends_on:
+      - db-mysql
+    environment:
+      - MARIADB_PASS=${MARIADB_PASS}
+  db-mysql:
+    image: mariadb:10.8.3
+    restart: always
+    expose:
+      - '3306'
+    environment:
+      - MARIADB_DATABASE=example-dev
+      - MARIADB_USER=example-user
+      - MARIADB_PASSWORD=${MARIADB_PASS}
+      - MARIADB_RANDOM_ROOT_PASSWORD=yes
