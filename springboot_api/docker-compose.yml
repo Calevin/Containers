@@ -13,6 +13,7 @@ services:
       - internal-network
     environment:
       - MARIADB_PASS=${MARIADB_PASS}
+      - SONAR_TOKEN=${SONAR_TOKEN}
   db-mysql:
     image: mariadb:10.8.3
     restart: always
